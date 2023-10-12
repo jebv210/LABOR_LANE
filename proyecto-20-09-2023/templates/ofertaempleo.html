@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Oferta</title>
+</head>
+<body>
+    <h1>Datos de Oferta Laboral</h1>
+    <form action="/Oferta" method="post">
+        <label for="TituloEmpleo">Titulo Del Empleo:</label>
+            <input type="text" name="TituloEmpleo" id="TituloEmpleo" required><br>
+        <label for="DescripcionEmpleo">Descripcion del Empleo:</label>
+            <input type="text" name="DescripcionEmpleo" id="DescripcionEmpleo" required><br>
+        <label for="RequisitosEmpleo">Requisitos del Empleo:</label>
+            <input type="text" name="RequisitosEmpleo" id="RequisitosEmpleo" required><br>  
+        <label for="HabilidadesEmpleo">Habilidades para el Empleo:</label>
+            <input type="text" name="HabilidadesEmpleo" id="HabilidadesEmpleo" required><br>        
+        <label for="FechaPublicacion">Fecha Publicacion del trabajo:</label>
+            <input type="date" name="FechaPublicacion" id="FechaPublicacion" required><br>
+        <label for="FechaVencimiento">Fecha de final del trabajo:</label>
+            <input type="date" name="FechaVencimiento" id="FechaVencimiento" required><br>
+        <label for="categoria">Categoria de su habilidad:</label>
+            <select name="categoria" value="categoria" required>
+                <option value="1" id="1">Pintores</option>
+                <option value="2" id="2">Constructores</option>
+                <option value="3" id="3">Plomeros</option>
+                <option value="4" id="4">Electricistas</option>
+                <option value="5" id="5">Carpinteros</option>
+            </select><br>
+        <label for="Nombre">Nombre usuario:</label>
+            <input type="text" name="Nombre" id="Nombre" value="{{ men }}" readonly><br>
+        <input type="submit" value="Enviar">
+    </form>
+    
+</body>
+</html>
