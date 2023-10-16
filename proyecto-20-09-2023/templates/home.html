@@ -24,13 +24,12 @@
             <img src="../static/multimedia/home/logo.png" alt="">
         </a>
         <ul class="navbar">
-            <li><a href="/#home">Home</a></li>
             <li><a href="/#nosotros">Nosotros</a></li>
             <li><a href="/catalogo">Servicios</a></li>
             <li><a href="/#footer">Contactanos</a></li>
         </ul>
         <div class="h-boton">
-            <a href="/login" class="h-boton-login">login</a>
+            <a href="{{ url_for('login') }}" class="h-boton-login">login</a>
             <div class="icono-menu"><ion-icon name="reorder-four-outline"></ion-icon></div>
         </div>
     </header>

@@ -68,17 +68,14 @@ window.onscroll = () => {
 }
 // Colorcar imagen
 
-// inpAcep.addEventListener('change', function(e){
-//     let archivo = e.target.files[0];
+inpAcep.addEventListener('change', function(e){
+    let archivo = e.target.files[0];
 
-//     if(archivo){
-//         let imgUrl = URL.createObjectURL(archivo);
-//         imgUser.src = imgUrl;
-//     }
-//     imgUser.addEventListener('change', function(){
-//         alert("bien");
-//     });
-// });
+    if(archivo){
+        let imgUrl = URL.createObjectURL(archivo);
+        imgUser.src = imgUrl;
+    }
+});
 
 
 
