@@ -242,7 +242,7 @@ def catalogo(): #etiqueta para definir la funcion
 
 @app.route('/templates/tc') # funcion desde flask
 def tc(): #etiqueta para definir la funcion
-    return render_template ("t_c.html") #se redirecciona al archivo entre las comillas
+    return render_template ("/templates/t_c.html") #se redirecciona al archivo entre las comillas
 #terminos y condiciones (juan pablo)
 
 @app.route('/templates/perfilcliente') # funcion desde flask

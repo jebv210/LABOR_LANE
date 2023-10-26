@@ -12,12 +12,10 @@
 }
 
 body{
-    display: grid;
+
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background-size: cover;
-    background-position: center;
+    height: 100vh;
 }
 :root{
     /* Tamaños de letras */
@@ -69,6 +67,7 @@ header{
     height: 100px;
     position: fixed;
     top: 0;
+    
     z-index: 1;
     display: flex;
     align-items: center;
@@ -139,6 +138,17 @@ header{
     font-weight: 600;
 }
 
+#nextButton:disabled {
+    background-color: #d3d3d3;
+    cursor: not-allowed;
+}
+
+#nextButton:hover:not([disabled]) {
+    background-color: #0056b3;
+}
+
+
+
 .icono-menu{
     color: var(--text-color);
     font-size: 36px;
@@ -162,20 +172,20 @@ header.sticky .logo img{
     width: 400px;
     height: 440px;
     border: 3px solid #061d70;
-    border-radius: 20px;
-    backdrop-filter: blur(20px);
-    display: flex;
+    border-radius: .7rem;
+    position: relative;
+    overflow: hidden;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
     transition: height 1.2s ease;
-    margin: 100px 0;
-    
+    display: flex; 
+    top: 10vh;
+    margin: 100px auto;
 }
 
 .wrapper.active {
     height: 950px;
-    margin: 40% 0;
+
 }
 
 .wrapper .form-box {
@@ -351,12 +361,12 @@ header.sticky .logo img{
 
 /* Realizamos un footer Con tres columnas y con el logo de la imagen y las redes sociales */
 .footer{
-    margin-top: 0px;
     width: 100%;
     background-color: var(--bg-color);   
-    position: absolute;
-    top: 140%;
+    bottom: 0;
 }
+
+
 
 .footer .grupo-1{
     width: 100%;
@@ -364,8 +374,8 @@ header.sticky .logo img{
     margin: auto;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-gap:50px;
-    padding: 45px 0px;
+    grid-gap: 17px;
+    padding: 17px 0px;
 }
 
 .footer .grupo-1 .box figure{
@@ -377,19 +387,18 @@ header.sticky .logo img{
 }
 
 .footer .grupo-1 .box img{
-    width: 250px;
-
+    width: 130px;
 }
 
 .footer .grupo-1 .box h2{
     color: #fff;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     font-size: 20px;
 }
 
 .footer .grupo-1 .box p{
     color: #d4d5da;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .footer .grupo-1 .red-social a{
@@ -427,7 +436,7 @@ header.sticky .logo img{
 /* Editamos la linea inferior de copy  */
 .footer .grupo-2{
     background-color: #000020;
-    padding: 15px 10px;
+    padding: 10px 5px;
     text-align: center;
     color: #fff;
 }
