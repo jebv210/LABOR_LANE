@@ -6,14 +6,7 @@ app = Flask(__name__, template_folder='')
 app.secret_key = os.urandom(24)
 
 # Configuracion de la base de datos
-db_config = {
-        'host': 'localhost',
-        'user': 'root',
-        'password': '',
-        'database': 'Labor_Lane'
-    }
 
-cnx = mysql.connector.connect(**db_config)
 
 @app.route('/') # funcion desde flask
 def home(): #etiqueta para definir la funcion
@@ -29,7 +22,14 @@ def login():
 
 @app.route('/datos-login', methods=['GET', 'POST'])
 def datos():
-    
+    db_config = {
+        'host': 'localhost',
+        'user': 'root',
+        'password': '',
+        'database': 'Labor_Lane'
+    }
+
+    cnx = mysql.connector.connect(**db_config)
     
     if request.method == 'POST':
         nombres = request.form['Usuario']
@@ -55,6 +55,14 @@ def formulario():
 # Ruta para procesar los datos del formulario de empleado (1)-------------------------------------------------
 @app.route('/templates/procesar-datos', methods=['GET','POST'])
 def procesar_datos(): # Obtener los datos del formulario
+    db_config = {
+        'host': 'localhost',
+        'user': 'root',
+        'password': '',
+        'database': 'Labor_Lane'
+    }
+
+    cnx = mysql.connector.connect(**db_config)
     nombres = request.form['nombres']
     p_apellido = request.form['p_apellido']
     s_apellido = request.form['s_apellido']
@@ -104,6 +112,14 @@ def procesar_datos(): # Obtener los datos del formulario
 
 @app.route('/templates/consultas')##CONSULTA GENERAL DE LOS EMPLEADOS/CLIENTES (2)------------------------------------
 def mostrar_empleados(): # Establecer la conexión a la base de datos   
+    db_config = {
+        'host': 'localhost',
+        'user': 'root',
+        'password': '',
+        'database': 'Labor_Lane'
+    }
+
+    cnx = mysql.connector.connect(**db_config)
     cursor = cnx.cursor() # Consulta SQL para obtener los datos de todos los empleados   
     sql = "SELECT * FROM usuario"
     try: # Ejecutar la consulta SQL       
@@ -118,7 +134,14 @@ def mostrar_empleados(): # Establecer la conexión a la base de datos
 
 @app.route('/templates/eliminar/<int:id>')#Eliminar datos del formulario de empleo (el (1)) solo admin
 def eliminar_empleados(id): # Establecer la conexión a la base de datos   
-    
+    db_config = {
+        'host': 'localhost',
+        'user': 'root',
+        'password': '',
+        'database': 'Labor_Lane'
+    }
+
+    cnx = mysql.connector.connect(**db_config)
     cursor = cnx.cursor() # Eliminar SQL para obtener los datos de todos los empleados         # Ejecutar la consulta SQL 
     sql = "DELETE FROM usuario WHERE IdUsuario = %s"
     cursor.execute(sql, (id,))
@@ -129,7 +152,14 @@ def eliminar_empleados(id): # Establecer la conexión a la base de datos
 
 @app.route('/templates/editar/<int:id>')#Actualizar datos del formulario de empleo (el (1)) solo admin
 def editar(id):
-    
+    db_config = {
+        'host': 'localhost',
+        'user': 'root',
+        'password': '',
+        'database': 'Labor_Lane'
+    }
+
+    cnx = mysql.connector.connect(**db_config)
     cursor = cnx.cursor()
 
     # Consulta SQL para obtener los datos de todos los empleados
@@ -152,6 +182,14 @@ def editar(id):
 @app.route('/templates/actualizar', methods=['POST'])
 #Actualizar datos del formulario de empleo (el (1)) solo admin
 def actualizar():
+    db_config = {
+        'host': 'localhost',
+        'user': 'root',
+        'password': '',
+        'database': 'Labor_Lane'
+    }
+
+    cnx = mysql.connector.connect(**db_config)
     nombres = request.form['nombres']
     p_apellido = request.form['p_apellido']
     s_apellido = request.form['s_apellido']
@@ -226,7 +264,14 @@ def habilidad():
     Descripcion = request.form['Descripcion']
     Nivel = request.form['Nivel']
     categoria = request.form['categoria'] # Establecer la conexión a la base de datos   
+    db_config = {
+        'host': 'localhost',
+        'user': 'root',
+        'password': '',
+        'database': 'Labor_Lane'
+    }
 
+    cnx = mysql.connector.connect(**db_config)
     cursor = cnx.cursor()
     sql = "select IdUsuario from usuario where NombresUsuario=%s"# Parámetros de SQL   
     data = (Nombre,)
@@ -261,7 +306,14 @@ def Educacion():
     FechaInicio = request.form['FechaInicio']
     Fechafinal = request.form['Fechafinal']
     ID = request.form['ID'] # Establecer la conexión a la base de datos
+    db_config = {
+        'host': 'localhost',
+        'user': 'root',
+        'password': '',
+        'database': 'Labor_Lane'
+    }
 
+    cnx = mysql.connector.connect(**db_config)
 
     cursor = cnx.cursor()
     sql = "insert into educacion (NombreInstitucion, TituloEducacion, NivelAcademico, FechaInicio, FechaFin, FK_IdUsuario) values (%s,%s,%s,%s,%s,%s)"
@@ -296,7 +348,16 @@ def Experiencia():
     sql = "insert into experiencia (NombreEmpleador, Cargo, Funciones, Logros, FechaInicio, FechaFin, FK_IdUsuario) values (%s,%s,%s,%s,%s,%s,%s)" # Parámetros de SQL   
     data = (NombreEmpleador, Cargo, Funciones, Logros, FechaInicio, Fechafinal, ID)
     print (data)
-    try:# intentar ejecutar la consulta con los datos (llenar los values de sql con data)                # Ejecutar la consulta SQL               
+    try:# intentar ejecutar la consulta con los datos (llenar los values de sql con data) 
+        # Ejecutar la consulta SQL     
+        db_config = {
+        'host': 'localhost',
+        'user': 'root',
+        'password': '',
+        'database': 'Labor_Lane'
+    }
+
+        cnx = mysql.connector.connect(**db_config)          
         cursor.execute(sql, data)
         cnx.commit()
         mensaje = "Datos insertados correctamente"#si todo sale bien dira este mensaje       
@@ -319,7 +380,14 @@ def Referencias():
     CorreoReferencia = request.form['CorreoReferencia']
     CelularReferencia = request.form['CelularReferencia']
     ID = request.form['ID'] # Establecer la conexión a la base de datos   
-    
+    db_config = {
+        'host': 'localhost',
+        'user': 'root',
+        'password': '',
+        'database': 'Labor_Lane'
+    }
+
+    cnx = mysql.connector.connect(**db_config)
     cursor = cnx.cursor()
     sql = "insert into referencias (NombreReferencia, EmpresaReferencia, CargoReferencia, CorreoReferencia, CelularReferencia, FK_IdUsuario) values (%s,%s,%s,%s,%s,%s)" # Parámetros de SQL 
     data = (NombreReferencia, EmpresaReferencia, CargoReferencia, CorreoReferencia, CelularReferencia, ID)
@@ -350,7 +418,15 @@ def Oferta():
     FechaVencimiento = request.form['FechaVencimiento']
     Estado = 'ACTIVO'
     categoria = request.form['categoria']
-    # Establecer la conexión a la base de datos   
+    # Establecer la conexión a la base de datos 
+    db_config = {
+        'host': 'localhost',
+        'user': 'root',
+        'password': '',
+        'database': 'Labor_Lane'
+    }
+
+    cnx = mysql.connector.connect(**db_config)  
     cursor = cnx.cursor()
     sql = "select IdUsuario from usuario where NombresUsuario=%s" # Parámetros de SQL   
     data = (Nombre,)
@@ -383,6 +459,14 @@ def cargar_imagen():
     if 'imagen' in request.files['imagen']:
         imagen = request.files['imagen']
         if imagen.filename != '':
+            db_config = {
+        'host': 'localhost',
+        'user': 'root',
+        'password': '',
+        'database': 'Labor_Lane'
+    }
+
+            cnx = mysql.connector.connect(**db_config)
             img_binari = imagen.read()
             nombre_img = imagen.filename
             sql = ("insert into imagenes(nombre, imagen) values (%s, %s)", (nombre_img, img_binari))
