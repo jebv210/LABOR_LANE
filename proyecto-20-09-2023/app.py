@@ -7,7 +7,7 @@ app.secret_key = os.urandom(24)
 
 # Configuracion de la base de datos
 
-
+# sdsdsds
 @app.route('/') # funcion desde flask
 def home(): #etiqueta para definir la funcion
     return render_template('/templates/home.html') #se redirecciona al archivo entre las comillas
@@ -17,7 +17,7 @@ def home(): #etiqueta para definir la funcion
 def login():
     return render_template('/templates/login.html')# aqui es donde esta para la direccion del html
 
-
+# pene dentro de julian
 
 
 @app.route('/datos-login', methods=['GET', 'POST'])
