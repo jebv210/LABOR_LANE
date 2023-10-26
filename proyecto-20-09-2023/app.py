@@ -226,8 +226,6 @@ def actualizar():
 
 #---------------------------------
 
-
-
 @app.route('/templates/catalogo') # funcion desde flask
 def catalogo(): #etiqueta para definir la funcion
     return render_template("catalogo.html")

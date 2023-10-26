@@ -40,7 +40,7 @@ header{
     position: fixed;
     top: 0;
     right: 0;
-    z-index: 1000;
+    z-index: 100;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -49,10 +49,10 @@ header{
     transition: all .80s ease;
 }
 .logo img{
-    height: 110px;
-    width: 110px;
+    height: 100px;
+    width: 100px;
     position: fixed;
-    top: 10px;
+    top: 1px;
     transition: all .80s ease;
 }
 
@@ -66,7 +66,7 @@ header{
 .navbar a{
     padding: 10px 30px;
     font-size: var(--p-font);
-    font-weight: 400;
+    font-weight: 300;
     color: #f2f3f4;
     transition: all .40s ease;
     border-bottom: 2px solid #f2f3f4;
@@ -127,8 +127,8 @@ header.sticky{
     background: var(--bg-color);
 }
 header.sticky .logo img{
-    height: 70px;
-    width: 70px;
+    height: 75px;
+    width: 75px;
     top: 0px;
 }
 
@@ -152,7 +152,7 @@ section{
 
 .home-text h1{
     font-size: var(--h1-font);
-    line-height: 1.2;
+    line-height: 1;
     margin-bottom: 20px;
 }
 .home-text p{
@@ -197,11 +197,9 @@ section{
     object-fit: contain;
     background-image: url(../multimedia/home/Fondo.png  );
 }
-
-
 /* segunda seccion  */
+
 .feature{
-    
     padding: 60px 15% 50px;
     background: rgb(15,36,121);
     background: linear-gradient(180deg, rgba(15,36,121,1) 0%, rgba(5,20,77,1) 100%);
