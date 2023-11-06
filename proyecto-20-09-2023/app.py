@@ -452,27 +452,6 @@ def Oferta():
     else:
         return render_template('/template/resultado.html', mensaje=mensaje)
     
-@app.route('/guardar_imagen', methods=['POST'])
-def cargar_imagen():
-    if 'imagen' in request.files['imagen']:
-        imagen = request.files['imagen']
-        if imagen.filename != '':
-            db_config = {
-        'host': 'localhost',
-        'user': 'root',
-        'password': '',
-        'database': 'Labor_Lane'
-    }
-
-            cnx = mysql.connector.connect(**db_config)
-            img_binari = imagen.read()
-            nombre_img = imagen.filename
-            sql = ("insert into imagenes(nombre, imagen) values (%s, %s)", (nombre_img, img_binari))
-            cursor = cnx.cursor()
-            cursor.execute(sql)
-            cnx.commit()
-            return 'Imagen subida'
-    return 'imagen no subida'
 
 
 
