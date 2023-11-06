@@ -328,7 +328,7 @@ main{
     z-index: 99;
     text-align: center;
 }
-
+/* 
 .box-file{
     background-color: white;
     color: var(--main-color);
@@ -336,10 +336,14 @@ main{
     cursor: pointer;
 
 }
-
+.file{
+    background-color: #000020;
+    width: 100px;
+    height: 20px;
+}
 .box-file input[type="file"]{
     display: none;
-}
+} */
 
 /* Aca terminan las aletas */
 

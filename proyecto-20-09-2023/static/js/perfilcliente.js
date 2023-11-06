@@ -44,11 +44,11 @@ const boxFile = document.querySelector('.box-file').addEventListener('click', fu
     const inpAcep = document.querySelector('#inpAcep').click();
 })
 
-document.addEventListener('click', function(event){
-    if(event.target.id !== 'imgUser' && event.target.id !== 'alertAsk' && event.target.id !== 'btnA'){
-        ocultar();
-    }
-});
+// document.addEventListener('click', function(event){
+//     if(event.target.id !== 'imgUser' && event.target.id !== 'alertAsk' && event.target.id !== 'btnA'){
+//         ocultar();
+//     }
+// });
 
 // Menu responsive opcciones
 window.addEventListener("scroll", function(){
@@ -68,25 +68,5 @@ window.onscroll = () => {
 }
 // Colorcar imagen
 
-inpAcep.addEventListener('change', function(e){
-    let archivo = e.target.files[0];
-
-    if(archivo){
-        let imgUrl = URL.createObjectURL(archivo);
-        imgUser.src = imgUrl;
-    }
-});
 
 
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Verifica si el usuario está autenticado (basado en la página de inicio)
-    var usuario = "{{ nombres }}";
-    if (usuario !== "") {
-        var boton1 = document.getElementById('boton1');
-        var boton2 = document.getElementById('boton2');
-
-        boton1.disabled = false;
-        boton2.disabled = false;
-    }
-});

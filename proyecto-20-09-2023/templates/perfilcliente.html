@@ -24,9 +24,10 @@
 
     <div class="alert-acep" id="alertAcep">
         Seleccionar imagen
-        <form action="/guardar_imagen" method="post" >
+        <form action="/guardar_imagen" method="post" enctype="multipart/form-data">
             <div class="box-file">
-                <input type="file" id="inpAcep" name="imagen">Seleccionar
+                <input type="file" name="imagen" class="file">Seleccionar
+
                 <input type="submit" value="guardar">
             </div>
         </form>
@@ -74,7 +75,11 @@
 
                 <div class="box-coment">
                     <div class="box-backg-user">
+                        {% if imagen %}
+                        <img src="data:image/png;base64,{{ imagen }}" alt="" class="img-backg-user">
+                        {% else %}
                         <img src="/static/multimedia/home/undraw_pic_profile_re_7g2h.svg" alt="" class="img-backg-user">
+                        {% endif %}
                     </div>
                     <div class="box-coment-user">
                         <div class="box-coment-text">

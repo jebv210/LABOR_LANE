@@ -113,6 +113,18 @@ header{
     font-weight: 600;
 }
 
+.foto-usuario{
+    border: 3px solid black;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    position: absolute;
+    right: 0px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+
 .icono-menu{
     color: var(--text-color);
     font-size: 36px;
@@ -187,7 +199,8 @@ section{
     right: 6px;
 }
 .home-imagen{
-    width: 640px;
+    position: relative;
+    width: 80%;
     height: 640px;
 }
 .home-imagen img{
@@ -478,7 +491,7 @@ section{
         height: 540px;
     }
     .home-imagen img{
-        width: 100%;
+        width: 90%;
         height: 100%;
         object-fit: contain;
     }
@@ -500,6 +513,9 @@ section{
 @media (max-width: 1170px){
     .icono-menu{
         display: block;
+    }
+    .foto-usuario{
+        right: 11%;
     }
     .navbar{
         position: absolute;

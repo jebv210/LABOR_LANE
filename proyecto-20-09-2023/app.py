@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import mysql.connector
 import os
+import base64
 
-app = Flask(__name__, template_folder='')
+
+app = Flask(__name__, template_folder='templates')
 app.secret_key = os.urandom(24)
 
 # Configuracion de la base de datos
@@ -10,12 +12,14 @@ app.secret_key = os.urandom(24)
 # sdsdsds
 @app.route('/') # funcion desde flask
 def home(): #etiqueta para definir la funcion
-    return render_template('/templates/home.html') #se redirecciona al archivo entre las comillas
+    if 'nombres' in session:
+        return render_template('home.html', nombres=session['nombres'])
+    return render_template('home.html') #se redirecciona al archivo entre las comillas
 #home (juan esteban)
 
-@app.route('/templates/login')#Login---------------------------------------------------------------------------
+@app.route('/login')#Login---------------------------------------------------------------------------
 def login():
-    return render_template('/templates/login.html')# aqui es donde esta para la direccion del html
+    return render_template('login.html')# aqui es donde esta para la direccion del html
 
 # pene dentro de julian
 
@@ -44,16 +48,16 @@ def datos():
 
         if user:
             session['nombres'] = nombres
-            return redirect(url_for('perfilcliente'))
+            return redirect(url_for('home'))
         else:
             return "Inicio de sesion fallido"
     return render_template('login.html')
 #FORMULARIO EMPLEADO-------------------------------------# Ruta para mostrar el formulario
-@app.route('/templates/formulario/empleados')
+@app.route('/formulario/empleados')
 def formulario():
-    return render_template('/template/formulario.html')# aqui es donde esta para la direccion del html
+    return render_template('/formulario.html')# aqui es donde esta para la direccion del html
 # Ruta para procesar los datos del formulario de empleado (1)-------------------------------------------------
-@app.route('/templates/procesar-datos', methods=['GET','POST'])
+@app.route('/procesar-datos', methods=['GET','POST'])
 def procesar_datos(): # Obtener los datos del formulario
     db_config = {
         'host': 'localhost',
@@ -104,13 +108,14 @@ def procesar_datos(): # Obtener los datos del formulario
     cursor.close()
     cnx.close()# Retornar el mensaje de resultado a mostrar en la página HTML (dependiento de si es cliente (rol 1) o empleado (rol 3) redireccionara a otro html)   
     if mensaje== "Datos insertados correctamente" and data[17] == '3':
-        return render_template('/template/habilidades.html', men=men)
+        return render_template('/habilidades.html', men=men)
     elif mensaje== "Datos insertados correctamente":
-        return render_template('/template/OfertaEmpleo.html', men=men)
+        return render_template('/OfertaEmpleo.html', men=men)
     else:
-        return render_template('/template/resultado.html', mensaje=mensaje)
+        return render_template('/resultado.html', mensaje=mensaje)
 
-@app.route('/templates/consultas')##CONSULTA GENERAL DE LOS EMPLEADOS/CLIENTES (2)------------------------------------
+
+@app.route('/consultas')##CONSULTA GENERAL DE LOS EMPLEADOS/CLIENTES (2)------------------------------------
 def mostrar_empleados(): # Establecer la conexión a la base de datos   
     db_config = {
         'host': 'localhost',
@@ -130,9 +135,9 @@ def mostrar_empleados(): # Establecer la conexión a la base de datos
         empleados = []# Cerrar el cursor y la conexión a la base de datos   
     cursor.close()
     cnx.close() # Retornar los empleados a la plantilla HTML para mostrarlos   
-    return render_template('/template/consultas.html', empleados=empleados)
+    return render_template('/consultas.html', empleados=empleados)
 
-@app.route('/templates/eliminar/<int:id>')#Eliminar datos del formulario de empleo (el (1)) solo admin
+@app.route('/eliminar/<int:id>')#Eliminar datos del formulario de empleo (el (1)) solo admin
 def eliminar_empleados(id): # Establecer la conexión a la base de datos   
     db_config = {
         'host': 'localhost',
@@ -150,7 +155,7 @@ def eliminar_empleados(id): # Establecer la conexión a la base de datos
     cnx.close() # Retornar los empleados a la plantilla HTML para mostrarlos   
     return redirect('/consultas')
 
-@app.route('/templates/editar/<int:id>')#Actualizar datos del formulario de empleo (el (1)) solo admin
+@app.route('/editar/<int:id>')#Actualizar datos del formulario de empleo (el (1)) solo admin
 def editar(id):
     db_config = {
         'host': 'localhost',
@@ -177,9 +182,9 @@ def editar(id):
         print("Error al obtener los empleados:", error)
         empleados = []
 
-    return render_template('/template/modificar.html',empleados=empleados)
+    return render_template('/modificar.html',empleados=empleados)
 
-@app.route('/templates/actualizar', methods=['POST'])
+@app.route('/actualizar', methods=['POST'])
 #Actualizar datos del formulario de empleo (el (1)) solo admin
 def actualizar():
     db_config = {
@@ -219,43 +224,90 @@ def actualizar():
     data = (nombres, p_apellido, s_apellido, genero, tipo_documento, numero_documento, fecha_nacimiento, celular_u, celular_d, direccion, estrato, correo, contraseña, estadocivil, personasacargo, LibretaMilitar, Contenido, rol, Barrio, Estado, id)
     cursor.execute(sql, data)
     cnx.commit()
-    cnx.commit()
     cursor.close()
     cnx.close() # Retornar los empleados a la plantilla HTML para mostrarlos   
     return redirect('/consultas') # Cerrar el cursor y la conexión a la base de datos
 
 #---------------------------------
 
-@app.route('/templates/catalogo') # funcion desde flask
+@app.route('/catalogo') # funcion desde flask
 def catalogo(): #etiqueta para definir la funcion
     return render_template("catalogo.html")
 
 
-# home-2
+@app.route('/guardar_imagen', methods=['POST'])
+def guardar_imagen():
+    db_config = {
+                'host': 'localhost',
+                'user': 'root',
+                'password': '',
+                'database': 'Labor_Lane'
+            }
+    cnx = mysql.connector.connect(**db_config)
+    if request.method == 'POST':
+        if 'nombres' in session:
+            id_usuario = session['nombres']
+            if 'imagen' in request.files:
+                imagen = request.files['imagen'].read()
+                cursor = cnx.cursor() 
+                sql = "UPDATE usuario SET imagen = %s WHERE id = %s"
+                data = (imagen, id_usuario)
+                
+                cursor.execute(sql, data)        
+                cnx.commit()
+                cursor.close()
+                return redirect(url_for('mostrar_imagen'))
+    return redirect(url_for('login'))  # Redireccionar al login si no hay sesión
 
-#@app.route('templates/home') # funcion desde flask
-#def home2(): #etiqueta para definir la funcion
-#    return render_template ("home.html")
+@app.route('/mostrar_imagen')
+def mostrar_imagen():
+    if 'nombres' in session:
+        id_usuario = session['nombres']
+        db_config = {
+            'host': 'localhost',
+            'user': 'root',
+            'password': '',
+            'database': 'Labor_Lane'
+        }
+        
+        cnx = mysql.connector.connect(**db_config)
+        cursor = cnx.cursor()
+        sql = "SELECT imagen FROM usuario WHERE id = %s"
+        cursor.execute(sql, (id_usuario,))
+        imagen = cursor.fetchone()[0] if cursor.rowcount > 0 else None
+
+        cursor.close()
+        cnx.close()
+        if imagen:
+            imagen_codificada = base64.b64encode(imagen[0]).decode('utf-8')
+        else:
+            imagen_codificada = None
+        return render_template('perfilcliente.html', imagen=imagen_codificada)
+    return redirect(url_for('login'))  # Redireccionar al login si no hay sesión
+
+@app.route('/perfilcliente', methods=['GET'])   
+def perfilcliente():
+    if 'nombres' in session:
+        return render_template('perfilcliente.html', nombres=session['nombres'])
+    return redirect(url_for('login'))
 
 
-@app.route('/templates/tc') # funcion desde flask
+
+@app.route('/tc') # funcion desde flask
 def tc(): #etiqueta para definir la funcion
-    return render_template ("/templates/t_c.html") #se redirecciona al archivo entre las comillas
+    return render_template ("t_c.html") #se redirecciona al archivo entre las comillas
 #terminos y condiciones (juan pablo)
 
-@app.route('/templates/perfilcliente') # funcion desde flask
-def perfilcliente(): #etiqueta para definir la funcion
-    if 'nombres' in session:
-        return render_template("/templates/perfilcliente.html", nombres=session['nombres'])
-    return redirect(url_for('login'))#se redirecciona al archivo entre las comillas
+
+
 
 
 @app.route('/logout')
 def logout():
     session.pop('nombres', None)
-    return redirect(url_for('login'))
+    return redirect(url_for('home'))
 
-@app.route('/templates/habilidad', methods=['POST'])#Habilidad de los empleados (datos)------------------------------------------------
+@app.route('/habilidad', methods=['POST'])#Habilidad de los empleados (datos)------------------------------------------------
 def habilidad():
     Nombre = request.form['Nombre']
     nombre_h = request.form['nombre_h']
@@ -292,11 +344,11 @@ def habilidad():
         cursor.close()
         cnx.close()
         if mensaje == "correctamente":
-            return render_template('/template/educacion.html', usuario_id=usuario_id)
+            return render_template('/educacion.html', usuario_id=usuario_id)
     else:
-        return render_template('/template/resultado.html', mensaje=mensaje)
+        return render_template('/resultado.html', mensaje=mensaje)
 
-@app.route('/templates/Educacion', methods=['POST'])#Educacion de los empleados------------------------------------------------
+@app.route('/Educacion', methods=['POST'])#Educacion de los empleados------------------------------------------------
 def Educacion():
     NombreInstitucion = request.form['NombreInstitucion']
     TituloEducacion = request.form['TituloEducacion']
@@ -327,11 +379,11 @@ def Educacion():
         cursor.close()
         cnx.close() # Retornar el mensaje de resultado a mostrar en la página HTML (dependiento de si es cliente (rol 1) o empleado (rol 3) redireccionara a otro html)   
     if mensaje== "Datos insertados correctamente":
-        return render_template('/template/experiencia.html', ID=ID)
+        return render_template('/experiencia.html', ID=ID)
     else:
-        return render_template('/template/resultado.html', mensaje=mensaje)
+        return render_template('/resultado.html', mensaje=mensaje)
 
-@app.route('/templates/Experiencia', methods=['POST'])#Experiencia de los empleados------------------------------------------------
+@app.route('/Experiencia', methods=['POST'])#Experiencia de los empleados------------------------------------------------
 def Experiencia():
     NombreEmpleador = request.form['NombreEmpleador']
     Cargo = request.form['Cargo']
@@ -366,11 +418,11 @@ def Experiencia():
         cursor.close()
         cnx.close() # Retornar el mensaje de resultado a mostrar en la página HTML (dependiento de si es cliente (rol 1) o empleado (rol 3) redireccionara a otro html)   
         if mensaje== "Datos insertados correctamente":
-            return render_template('/template/referencias.html', ID=ID)
+            return render_template('/referencias.html', ID=ID)
         else:
-            return render_template('/template/resultado.html', mensaje=mensaje)
+            return render_template('/resultado.html', mensaje=mensaje)
     
-@app.route('/templates/Referencias', methods=['POST'])#Referencias de los empleados------------------------------------------------
+@app.route('/Referencias', methods=['POST'])#Referencias de los empleados------------------------------------------------
 def Referencias():
     NombreReferencia = request.form['NombreReferencia']
     EmpresaReferencia = request.form['EmpresaReferencia']
@@ -405,7 +457,7 @@ def Referencias():
     else:
         return render_template('resultado.html', mensaje=mensaje)
     
-@app.route('/templates/Oferta', methods=['POST'])#Ofetar para los empleados de clientes------------------------------------------------
+@app.route('/Oferta', methods=['POST'])#Ofetar para los empleados de clientes------------------------------------------------
 def Oferta():
     Nombre = request.form['Nombre']
     TituloEmpleo = request.form['TituloEmpleo']
@@ -448,9 +500,9 @@ def Oferta():
     cursor.close()
     cnx.close()
     if mensaje == "correctamente":
-        return render_template('/template/botones.html', usuario_id=usuario_id)
+        return render_template('botones.html', usuario_id=usuario_id)
     else:
-        return render_template('/template/resultado.html', mensaje=mensaje)
+        return render_template('resultado.html', mensaje=mensaje)
     
 
 
