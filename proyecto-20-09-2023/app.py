@@ -9,7 +9,7 @@ app.secret_key = os.urandom(24)
 
 # Configuracion de la base de datos
 
-# sdsdsds
+
 @app.route('/') # funcion desde flask
 def home(): #etiqueta para definir la funcion
     if 'nombres' in session:
@@ -17,13 +17,13 @@ def home(): #etiqueta para definir la funcion
     return render_template('home.html') #se redirecciona al archivo entre las comillas
 #home (juan esteban)
 
+
+
+
 @app.route('/login')#Login---------------------------------------------------------------------------
 def login():
     return render_template('login.html')# aqui es donde esta para la direccion del html
-
 # pene dentro de julian
-
-
 @app.route('/datos-login', methods=['GET', 'POST'])
 def datos():
     db_config = {
@@ -32,20 +32,16 @@ def datos():
         'password': '',
         'database': 'Labor_Lane'
     }
-
     cnx = mysql.connector.connect(**db_config)
-    
     if request.method == 'POST':
         nombres = request.form['Usuario']
         contraseña = request.form['Contraseña']
-
         cursor = cnx.cursor()
-        sql = "SELECT * FROM usuario WHERE NombresUsuario=%s AND ContraseñaUsuario=%s"
+        sql = "SELECT * FROM usuario WHERE NombreUsuario=%s AND ContraseñaUsuario=%s"
         data = (nombres, contraseña)
         cursor.execute(sql, data)
         user = cursor.fetchone()
         cursor.close()
-
         if user:
             session['nombres'] = nombres
             return redirect(url_for('home'))
@@ -57,6 +53,10 @@ def datos():
 def formulario():
     return render_template('/formulario.html')# aqui es donde esta para la direccion del html
 # Ruta para procesar los datos del formulario de empleado (1)-------------------------------------------------
+
+
+
+
 @app.route('/procesar-datos', methods=['GET','POST'])
 def procesar_datos(): # Obtener los datos del formulario
     db_config = {
@@ -65,7 +65,6 @@ def procesar_datos(): # Obtener los datos del formulario
         'password': '',
         'database': 'Labor_Lane'
     }
-
     cnx = mysql.connector.connect(**db_config)
     nombres = request.form['nombres']
     p_apellido = request.form['p_apellido']
@@ -88,23 +87,19 @@ def procesar_datos(): # Obtener los datos del formulario
     Barrio = request.form['Barrio']
     Estado = 'ACTIVO'
     # Establecer la conexión a la base de datos   
-    
     cursor = cnx.cursor()
-    sql = "insert into usuario (NombresUsuario, PrimerApellidoUsuario, SegundoApellidoUsuario, GeneroUsuario, TipoDocumentoUsuario, NumeroDocumentoUsuario, FechaNacimiento, CelularUsuario, Celular2Usuario, DireccionUsuario, EstratoResidencia, CorreoUsuario, ContraseñaUsuario, EstadoCivil, PersonasACargo, Libreta, Contenido, FK_IdRol, ZonaResidencia, Estado) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)" # Parámetros de la consulta SQL   
+    sql = "insert into usuario (NombreUsuario, PrimerApellidoUsuario, SegundoApellidoUsuario, GeneroUsuario, TipoDocumentoUsuario, NumeroDocumentoUsuario, FechaNacimiento, CelularUsuario, Celular2Usuario, DireccionUsuario, EstratoResidencia, CorreoUsuario, ContraseñaUsuario, EstadoCivil, PersonasACargo, Libreta, Contenido, FK_IdRol, ZonaResidencia, Estado) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)" # Parámetros de la consulta SQL   
     data = (nombres, p_apellido, s_apellido, genero, tipo_documento, numero_documento, fecha_nacimiento, celular_u, celular_d, direccion, estrato, correo, contraseña, estadocivil, personasacargo, LibretaMilitar, Contenido, rol, Barrio, Estado)
     print(data)
-
     try:# intentar ejecutar la consulta con los datos (llenar los values de sql con data)                # Ejecutar la consulta SQL               
         cursor.execute(sql, data)
         cnx.commit()
         mensaje = "Datos insertados correctamente"#si todo sale bien dira este mensaje       
         men = data[0]
         print(data)
-
     except mysql.connector.Error as error: #esto es para el error        # En caso de error, imprimir el mensaje de error       
             print("Error al insertar los datos:", error)
             mensaje = "Error al insertar los datos" # Cerrar el cursor y la conexión a la base de datos   
-
     cursor.close()
     cnx.close()# Retornar el mensaje de resultado a mostrar en la página HTML (dependiento de si es cliente (rol 1) o empleado (rol 3) redireccionara a otro html)   
     if mensaje== "Datos insertados correctamente" and data[17] == '3':
@@ -115,6 +110,8 @@ def procesar_datos(): # Obtener los datos del formulario
         return render_template('/resultado.html', mensaje=mensaje)
 
 
+
+
 @app.route('/consultas')##CONSULTA GENERAL DE LOS EMPLEADOS/CLIENTES (2)------------------------------------
 def mostrar_empleados(): # Establecer la conexión a la base de datos   
     db_config = {
@@ -123,7 +120,6 @@ def mostrar_empleados(): # Establecer la conexión a la base de datos
         'password': '',
         'database': 'Labor_Lane'
     }
-
     cnx = mysql.connector.connect(**db_config)
     cursor = cnx.cursor() # Consulta SQL para obtener los datos de todos los empleados   
     sql = "SELECT * FROM usuario"
@@ -137,6 +133,8 @@ def mostrar_empleados(): # Establecer la conexión a la base de datos
     cnx.close() # Retornar los empleados a la plantilla HTML para mostrarlos   
     return render_template('/consultas.html', empleados=empleados)
 
+
+
 @app.route('/eliminar/<int:id>')#Eliminar datos del formulario de empleo (el (1)) solo admin
 def eliminar_empleados(id): # Establecer la conexión a la base de datos   
     db_config = {
@@ -145,7 +143,6 @@ def eliminar_empleados(id): # Establecer la conexión a la base de datos
         'password': '',
         'database': 'Labor_Lane'
     }
-
     cnx = mysql.connector.connect(**db_config)
     cursor = cnx.cursor() # Eliminar SQL para obtener los datos de todos los empleados         # Ejecutar la consulta SQL 
     sql = "DELETE FROM usuario WHERE IdUsuario = %s"
@@ -155,6 +152,8 @@ def eliminar_empleados(id): # Establecer la conexión a la base de datos
     cnx.close() # Retornar los empleados a la plantilla HTML para mostrarlos   
     return redirect('/consultas')
 
+
+
 @app.route('/editar/<int:id>')#Actualizar datos del formulario de empleo (el (1)) solo admin
 def editar(id):
     db_config = {
@@ -163,17 +162,13 @@ def editar(id):
         'password': '',
         'database': 'Labor_Lane'
     }
-
     cnx = mysql.connector.connect(**db_config)
     cursor = cnx.cursor()
-
     # Consulta SQL para obtener los datos de todos los empleados
     sql = "SELECT * FROM usuario WHERE IdUsuario = %s"
-
     try:
         # Ejecutar la consulta SQL
         cursor.execute(sql, (id,))
-
         # Obtener todos los registros
         empleados = cursor.fetchall()
         cnx.commit()
@@ -181,8 +176,9 @@ def editar(id):
         # En caso de error, imprimir el mensaje de error
         print("Error al obtener los empleados:", error)
         empleados = []
-
     return render_template('/modificar.html',empleados=empleados)
+
+
 
 @app.route('/actualizar', methods=['POST'])
 #Actualizar datos del formulario de empleo (el (1)) solo admin
@@ -193,7 +189,6 @@ def actualizar():
         'password': '',
         'database': 'Labor_Lane'
     }
-
     cnx = mysql.connector.connect(**db_config)
     nombres = request.form['nombres']
     p_apellido = request.form['p_apellido']
@@ -216,10 +211,9 @@ def actualizar():
     Barrio = request.form['Barrio']
     Estado = request.form['Estado']
     id=request.form['id']
-    
     cursor = cnx.cursor()
         # # Actualizacion SQL para insertar los datos en la tabla "empleados"
-    sql = "UPDATE usuario SET NombresUsuario=%s, PrimerApellidoUsuario=%s, SegundoApellidoUsuario=%s, GeneroUsuario=%s, TipoDocumentoUsuario=%s, NumeroDocumentoUsuario=%s, FechaNacimiento=%s, CelularUsuario=%s, Celular2Usuario=%s, DireccionUsuario=%s, EstratoResidencia=%s, CorreoUsuario=%s, ContraseñaUsuario=%s, EstadoCivil=%s, PersonasACargo=%s, Libreta=%s, contenido=%s, FK_IdRol=%s, ZonaResidencia=%s, Estado=%s WHERE IdUsuario=%s"
+    sql = "UPDATE usuario SET NombreUsuario=%s, PrimerApellidoUsuario=%s, SegundoApellidoUsuario=%s, GeneroUsuario=%s, TipoDocumentoUsuario=%s, NumeroDocumentoUsuario=%s, FechaNacimiento=%s, CelularUsuario=%s, Celular2Usuario=%s, DireccionUsuario=%s, EstratoResidencia=%s, CorreoUsuario=%s, ContraseñaUsuario=%s, EstadoCivil=%s, PersonasACargo=%s, Libreta=%s, contenido=%s, FK_IdRol=%s, ZonaResidencia=%s, Estado=%s WHERE IdUsuario=%s"
     # Parámetros de la consulta SQL   
     data = (nombres, p_apellido, s_apellido, genero, tipo_documento, numero_documento, fecha_nacimiento, celular_u, celular_d, direccion, estrato, correo, contraseña, estadocivil, personasacargo, LibretaMilitar, Contenido, rol, Barrio, Estado, id)
     cursor.execute(sql, data)
@@ -229,6 +223,8 @@ def actualizar():
     return redirect('/consultas') # Cerrar el cursor y la conexión a la base de datos
 
 #---------------------------------
+
+
 
 @app.route('/catalogo') # funcion desde flask
 def catalogo(): #etiqueta para definir la funcion
@@ -252,12 +248,13 @@ def guardar_imagen():
                 cursor = cnx.cursor() 
                 sql = "UPDATE usuario SET imagen = %s WHERE id = %s"
                 data = (imagen, id_usuario)
-                
                 cursor.execute(sql, data)        
                 cnx.commit()
                 cursor.close()
                 return redirect(url_for('mostrar_imagen'))
     return redirect(url_for('login'))  # Redireccionar al login si no hay sesión
+
+
 
 @app.route('/mostrar_imagen')
 def mostrar_imagen():
@@ -269,13 +266,11 @@ def mostrar_imagen():
             'password': '',
             'database': 'Labor_Lane'
         }
-        
         cnx = mysql.connector.connect(**db_config)
         cursor = cnx.cursor()
         sql = "SELECT imagen FROM usuario WHERE id = %s"
         cursor.execute(sql, (id_usuario,))
         imagen = cursor.fetchone()[0] if cursor.rowcount > 0 else None
-
         cursor.close()
         cnx.close()
         if imagen:
@@ -284,6 +279,8 @@ def mostrar_imagen():
             imagen_codificada = None
         return render_template('perfilcliente.html', imagen=imagen_codificada)
     return redirect(url_for('login'))  # Redireccionar al login si no hay sesión
+
+
 
 @app.route('/perfilcliente', methods=['GET'])   
 def perfilcliente():
@@ -307,6 +304,8 @@ def logout():
     session.pop('nombres', None)
     return redirect(url_for('home'))
 
+
+
 @app.route('/habilidad', methods=['POST'])#Habilidad de los empleados (datos)------------------------------------------------
 def habilidad():
     Nombre = request.form['Nombre']
@@ -320,10 +319,9 @@ def habilidad():
         'password': '',
         'database': 'Labor_Lane'
     }
-
     cnx = mysql.connector.connect(**db_config)
     cursor = cnx.cursor()
-    sql = "select IdUsuario from usuario where NombresUsuario=%s"# Parámetros de SQL   
+    sql = "select IdUsuario from usuario where NombreUsuario=%s"# Parámetros de SQL   
     data = (Nombre,)
     print (data)
     try:# intentar ejecutar la consulta con los datos (llenar los values de sql con data)                # Ejecutar la consulta SQL               
@@ -348,6 +346,8 @@ def habilidad():
     else:
         return render_template('/resultado.html', mensaje=mensaje)
 
+
+
 @app.route('/Educacion', methods=['POST'])#Educacion de los empleados------------------------------------------------
 def Educacion():
     NombreInstitucion = request.form['NombreInstitucion']
@@ -362,9 +362,7 @@ def Educacion():
         'password': '',
         'database': 'Labor_Lane'
     }
-
     cnx = mysql.connector.connect(**db_config)
-
     cursor = cnx.cursor()
     sql = "insert into educacion (NombreInstitucion, TituloEducacion, NivelAcademico, FechaInicio, FechaFin, FK_IdUsuario) values (%s,%s,%s,%s,%s,%s)"
     data = (NombreInstitucion, TituloEducacion, NivelAcademico, FechaInicio, Fechafinal, ID)
@@ -383,6 +381,8 @@ def Educacion():
     else:
         return render_template('/resultado.html', mensaje=mensaje)
 
+
+
 @app.route('/Experiencia', methods=['POST'])#Experiencia de los empleados------------------------------------------------
 def Experiencia():
     NombreEmpleador = request.form['NombreEmpleador']
@@ -392,8 +392,6 @@ def Experiencia():
     FechaInicio = request.form['FechaInicio']
     Fechafinal = request.form['Fechafinal']
     ID = request.form['ID'] # Establecer la conexión a la base de datos   
-
-    
     cursor = cnx.cursor()
     sql = "insert into experiencia (NombreEmpleador, Cargo, Funciones, Logros, FechaInicio, FechaFin, FK_IdUsuario) values (%s,%s,%s,%s,%s,%s,%s)" # Parámetros de SQL   
     data = (NombreEmpleador, Cargo, Funciones, Logros, FechaInicio, Fechafinal, ID)
@@ -406,7 +404,6 @@ def Experiencia():
         'password': '',
         'database': 'Labor_Lane'
     }
-
         cnx = mysql.connector.connect(**db_config)          
         cursor.execute(sql, data)
         cnx.commit()
@@ -422,6 +419,9 @@ def Experiencia():
         else:
             return render_template('/resultado.html', mensaje=mensaje)
     
+
+
+
 @app.route('/Referencias', methods=['POST'])#Referencias de los empleados------------------------------------------------
 def Referencias():
     NombreReferencia = request.form['NombreReferencia']
@@ -436,7 +436,6 @@ def Referencias():
         'password': '',
         'database': 'Labor_Lane'
     }
-
     cnx = mysql.connector.connect(**db_config)
     cursor = cnx.cursor()
     sql = "insert into referencias (NombreReferencia, EmpresaReferencia, CargoReferencia, CorreoReferencia, CelularReferencia, FK_IdUsuario) values (%s,%s,%s,%s,%s,%s)" # Parámetros de SQL 
@@ -457,6 +456,8 @@ def Referencias():
     else:
         return render_template('resultado.html', mensaje=mensaje)
     
+
+
 @app.route('/Oferta', methods=['POST'])#Ofetar para los empleados de clientes------------------------------------------------
 def Oferta():
     Nombre = request.form['Nombre']
@@ -475,10 +476,9 @@ def Oferta():
         'password': '',
         'database': 'Labor_Lane'
     }
-
     cnx = mysql.connector.connect(**db_config)  
     cursor = cnx.cursor()
-    sql = "select IdUsuario from usuario where NombresUsuario=%s" # Parámetros de SQL   
+    sql = "select IdUsuario from usuario where NombreUsuario=%s" # Parámetros de SQL   
     data = (Nombre,)
     print (data)
     try:# intentar ejecutar la consulta con los datos (llenar los values de sql con data)                # Ejecutar la consulta SQL               
