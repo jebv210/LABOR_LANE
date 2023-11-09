@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session
+from werkzeug.utils import secure_filename
 import mysql.connector
 import os
-import base64
+
 
 
 app = Flask(__name__, template_folder='templates')
@@ -118,54 +119,6 @@ def perfilcliente():
         return render_template('perfilcliente.html', nombres=session['nombres'])
     return redirect(url_for('login'))
 
-@app.route('/guardar_imagen', methods=['POST'])
-def guardar_imagen():
-    db_config = {
-                'host': 'localhost',
-                'user': 'root',
-                'password': '',
-                'database': 'Labor_Lane'
-            }
-    cnx = mysql.connector.connect(**db_config)
-    if request.method == 'POST':
-        if 'nombres' in session:
-            id_usuario = session['nombres']
-            if 'imagen' in request.files:
-                imagen = request.files['imagen'].read()
-                cursor = cnx.cursor() 
-                sql = "UPDATE usuario SET imagen = %s WHERE id = %s"
-                data = (imagen, id_usuario)
-                cursor.execute(sql, data)        
-                cnx.commit()
-                cursor.close()
-                return redirect(url_for('mostrar_imagen'))
-    return redirect(url_for('login'))  # Redireccionar al login si no hay sesión
-
-
-
-@app.route('/mostrar_imagen')
-def mostrar_imagen():
-    if 'nombres' in session:
-        id_usuario = session['nombres']
-        db_config = {
-            'host': 'localhost',
-            'user': 'root',
-            'password': '',
-            'database': 'Labor_Lane'
-        }
-        cnx = mysql.connector.connect(**db_config)
-        cursor = cnx.cursor()
-        sql = "SELECT imagen FROM usuario WHERE id = %s"
-        cursor.execute(sql, (id_usuario,))
-        imagen = cursor.fetchone()[0] if cursor.rowcount > 0 else None
-        cursor.close()
-        cnx.close()
-        if imagen:
-            imagen_codificada = base64.b64encode(imagen[0]).decode('utf-8')
-        else:
-            imagen_codificada = None
-        return render_template('perfilcliente.html', imagen=imagen_codificada)
-    return redirect(url_for('login'))  # Redireccionar al login si no hay sesión
 
 
 @app.route('/logout')
