@@ -19,8 +19,8 @@ def home(): #etiqueta para definir la funcion
 
 
 
-
-@app.route('/login')#Login---------------------------------------------------------------------------
+#Login---------------------------------------------------------------------------
+@app.route('/login')
 def login():
     return render_template('login.html')# aqui es donde esta para la direccion del html
 # pene dentro de julian
@@ -37,7 +37,7 @@ def datos():
         nombres = request.form['Usuario']
         contraseña = request.form['Contraseña']
         cursor = cnx.cursor()
-        sql = "SELECT * FROM usuario WHERE NombreUsuario=%s AND ContraseñaUsuario=%s"
+        sql = "SELECT * FROM usuario WHERE NombresUsuario=%s AND ContraseñaUsuario=%s"
         data = (nombres, contraseña)
         cursor.execute(sql, data)
         user = cursor.fetchone()
@@ -53,7 +53,6 @@ def datos():
 def formulario():
     return render_template('/formulario.html')# aqui es donde esta para la direccion del html
 # Ruta para procesar los datos del formulario de empleado (1)-------------------------------------------------
-
 
 
 
@@ -88,7 +87,7 @@ def procesar_datos(): # Obtener los datos del formulario
     Estado = 'ACTIVO'
     # Establecer la conexión a la base de datos   
     cursor = cnx.cursor()
-    sql = "insert into usuario (NombreUsuario, PrimerApellidoUsuario, SegundoApellidoUsuario, GeneroUsuario, TipoDocumentoUsuario, NumeroDocumentoUsuario, FechaNacimiento, CelularUsuario, Celular2Usuario, DireccionUsuario, EstratoResidencia, CorreoUsuario, ContraseñaUsuario, EstadoCivil, PersonasACargo, Libreta, Contenido, FK_IdRol, ZonaResidencia, Estado) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)" # Parámetros de la consulta SQL   
+    sql = "insert into usuario (NombresUsuario, PrimerApellidoUsuario, SegundoApellidoUsuario, GeneroUsuario, TipoDocumentoUsuario, NumeroDocumentoUsuario, FechaNacimiento, CelularUsuario, Celular2Usuario, DireccionUsuario, EstratoResidencia, CorreoUsuario, ContraseñaUsuario, EstadoCivil, PersonasACargo, Libreta, Contenido, FK_IdRol, ZonaResidencia, Estado) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)" # Parámetros de la consulta SQL   
     data = (nombres, p_apellido, s_apellido, genero, tipo_documento, numero_documento, fecha_nacimiento, celular_u, celular_d, direccion, estrato, correo, contraseña, estadocivil, personasacargo, LibretaMilitar, Contenido, rol, Barrio, Estado)
     print(data)
     try:# intentar ejecutar la consulta con los datos (llenar los values de sql con data)                # Ejecutar la consulta SQL               
@@ -108,6 +107,73 @@ def procesar_datos(): # Obtener los datos del formulario
         return render_template('/OfertaEmpleo.html', men=men)
     else:
         return render_template('/resultado.html', mensaje=mensaje)
+
+
+#Fin login---------------------------------------------------------------------------
+
+#Perfiles---------------------------------------------------------------------------
+@app.route('/perfilcliente', methods=['GET'])   
+def perfilcliente():
+    if 'nombres' in session:
+        return render_template('perfilcliente.html', nombres=session['nombres'])
+    return redirect(url_for('login'))
+
+@app.route('/guardar_imagen', methods=['POST'])
+def guardar_imagen():
+    db_config = {
+                'host': 'localhost',
+                'user': 'root',
+                'password': '',
+                'database': 'Labor_Lane'
+            }
+    cnx = mysql.connector.connect(**db_config)
+    if request.method == 'POST':
+        if 'nombres' in session:
+            id_usuario = session['nombres']
+            if 'imagen' in request.files:
+                imagen = request.files['imagen'].read()
+                cursor = cnx.cursor() 
+                sql = "UPDATE usuario SET imagen = %s WHERE id = %s"
+                data = (imagen, id_usuario)
+                cursor.execute(sql, data)        
+                cnx.commit()
+                cursor.close()
+                return redirect(url_for('mostrar_imagen'))
+    return redirect(url_for('login'))  # Redireccionar al login si no hay sesión
+
+
+
+@app.route('/mostrar_imagen')
+def mostrar_imagen():
+    if 'nombres' in session:
+        id_usuario = session['nombres']
+        db_config = {
+            'host': 'localhost',
+            'user': 'root',
+            'password': '',
+            'database': 'Labor_Lane'
+        }
+        cnx = mysql.connector.connect(**db_config)
+        cursor = cnx.cursor()
+        sql = "SELECT imagen FROM usuario WHERE id = %s"
+        cursor.execute(sql, (id_usuario,))
+        imagen = cursor.fetchone()[0] if cursor.rowcount > 0 else None
+        cursor.close()
+        cnx.close()
+        if imagen:
+            imagen_codificada = base64.b64encode(imagen[0]).decode('utf-8')
+        else:
+            imagen_codificada = None
+        return render_template('perfilcliente.html', imagen=imagen_codificada)
+    return redirect(url_for('login'))  # Redireccionar al login si no hay sesión
+
+
+@app.route('/logout')
+def logout():
+    session.pop('nombres', None)
+    return redirect(url_for('home'))
+
+#Fin perfiles---------------------------------------------------------------------------
 
 
 
@@ -213,7 +279,7 @@ def actualizar():
     id=request.form['id']
     cursor = cnx.cursor()
         # # Actualizacion SQL para insertar los datos en la tabla "empleados"
-    sql = "UPDATE usuario SET NombreUsuario=%s, PrimerApellidoUsuario=%s, SegundoApellidoUsuario=%s, GeneroUsuario=%s, TipoDocumentoUsuario=%s, NumeroDocumentoUsuario=%s, FechaNacimiento=%s, CelularUsuario=%s, Celular2Usuario=%s, DireccionUsuario=%s, EstratoResidencia=%s, CorreoUsuario=%s, ContraseñaUsuario=%s, EstadoCivil=%s, PersonasACargo=%s, Libreta=%s, contenido=%s, FK_IdRol=%s, ZonaResidencia=%s, Estado=%s WHERE IdUsuario=%s"
+    sql = "UPDATE usuario SET NombresUsuario=%s, PrimerApellidoUsuario=%s, SegundoApellidoUsuario=%s, GeneroUsuario=%s, TipoDocumentoUsuario=%s, NumeroDocumentoUsuario=%s, FechaNacimiento=%s, CelularUsuario=%s, Celular2Usuario=%s, DireccionUsuario=%s, EstratoResidencia=%s, CorreoUsuario=%s, ContraseñaUsuario=%s, EstadoCivil=%s, PersonasACargo=%s, Libreta=%s, contenido=%s, FK_IdRol=%s, ZonaResidencia=%s, Estado=%s WHERE IdUsuario=%s"
     # Parámetros de la consulta SQL   
     data = (nombres, p_apellido, s_apellido, genero, tipo_documento, numero_documento, fecha_nacimiento, celular_u, celular_d, direccion, estrato, correo, contraseña, estadocivil, personasacargo, LibretaMilitar, Contenido, rol, Barrio, Estado, id)
     cursor.execute(sql, data)
@@ -231,62 +297,7 @@ def catalogo(): #etiqueta para definir la funcion
     return render_template("catalogo.html")
 
 
-@app.route('/guardar_imagen', methods=['POST'])
-def guardar_imagen():
-    db_config = {
-                'host': 'localhost',
-                'user': 'root',
-                'password': '',
-                'database': 'Labor_Lane'
-            }
-    cnx = mysql.connector.connect(**db_config)
-    if request.method == 'POST':
-        if 'nombres' in session:
-            id_usuario = session['nombres']
-            if 'imagen' in request.files:
-                imagen = request.files['imagen'].read()
-                cursor = cnx.cursor() 
-                sql = "UPDATE usuario SET imagen = %s WHERE id = %s"
-                data = (imagen, id_usuario)
-                cursor.execute(sql, data)        
-                cnx.commit()
-                cursor.close()
-                return redirect(url_for('mostrar_imagen'))
-    return redirect(url_for('login'))  # Redireccionar al login si no hay sesión
 
-
-
-@app.route('/mostrar_imagen')
-def mostrar_imagen():
-    if 'nombres' in session:
-        id_usuario = session['nombres']
-        db_config = {
-            'host': 'localhost',
-            'user': 'root',
-            'password': '',
-            'database': 'Labor_Lane'
-        }
-        cnx = mysql.connector.connect(**db_config)
-        cursor = cnx.cursor()
-        sql = "SELECT imagen FROM usuario WHERE id = %s"
-        cursor.execute(sql, (id_usuario,))
-        imagen = cursor.fetchone()[0] if cursor.rowcount > 0 else None
-        cursor.close()
-        cnx.close()
-        if imagen:
-            imagen_codificada = base64.b64encode(imagen[0]).decode('utf-8')
-        else:
-            imagen_codificada = None
-        return render_template('perfilcliente.html', imagen=imagen_codificada)
-    return redirect(url_for('login'))  # Redireccionar al login si no hay sesión
-
-
-
-@app.route('/perfilcliente', methods=['GET'])   
-def perfilcliente():
-    if 'nombres' in session:
-        return render_template('perfilcliente.html', nombres=session['nombres'])
-    return redirect(url_for('login'))
 
 
 
@@ -299,10 +310,7 @@ def tc(): #etiqueta para definir la funcion
 
 
 
-@app.route('/logout')
-def logout():
-    session.pop('nombres', None)
-    return redirect(url_for('home'))
+
 
 
 
@@ -321,7 +329,7 @@ def habilidad():
     }
     cnx = mysql.connector.connect(**db_config)
     cursor = cnx.cursor()
-    sql = "select IdUsuario from usuario where NombreUsuario=%s"# Parámetros de SQL   
+    sql = "select IdUsuario from usuario where NombresUsuario=%s"# Parámetros de SQL   
     data = (Nombre,)
     print (data)
     try:# intentar ejecutar la consulta con los datos (llenar los values de sql con data)                # Ejecutar la consulta SQL               
@@ -478,7 +486,7 @@ def Oferta():
     }
     cnx = mysql.connector.connect(**db_config)  
     cursor = cnx.cursor()
-    sql = "select IdUsuario from usuario where NombreUsuario=%s" # Parámetros de SQL   
+    sql = "select IdUsuario from usuario where NombresUsuario=%s" # Parámetros de SQL   
     data = (Nombre,)
     print (data)
     try:# intentar ejecutar la consulta con los datos (llenar los values de sql con data)                # Ejecutar la consulta SQL               
