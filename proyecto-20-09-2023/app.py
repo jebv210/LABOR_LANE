@@ -23,7 +23,6 @@ def home(): #etiqueta para definir la funcion
 @app.route('/login')
 def login():
     return render_template('login.html')# aqui es donde esta para la direccion del html
-# pene dentro de julian
 @app.route('/datos-login', methods=['GET', 'POST'])
 def datos():
     db_config = {
