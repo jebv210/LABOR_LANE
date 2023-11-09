@@ -9,12 +9,12 @@ app = Flask(__name__, template_folder='templates')
 app.secret_key = os.urandom(24)
 
 # Configuracion de la base de datos
-
+app.config['UPLOAD_FOLDER'] = 'static/imagenes'
 
 @app.route('/') # funcion desde flask
 def home(): #etiqueta para definir la funcion
-    if 'nombres' in session:
-        return render_template('home.html', nombres=session['nombres'])
+    if 'usuario' in session:
+        return render_template('home.html', nombre=session['usuario'])
     return render_template('home.html') #se redirecciona al archivo entre las comillas
 #home (juan esteban)
 
@@ -31,7 +31,7 @@ def datos():
         'host': 'localhost',
         'user': 'root',
         'password': '',
-        'database': 'Labor_Lane'
+        'database': 'db_laborlane'
     }
     cnx = mysql.connector.connect(**db_config)
     if request.method == 'POST':
@@ -44,7 +44,10 @@ def datos():
         user = cursor.fetchone()
         cursor.close()
         if user:
-            session['nombres'] = nombres
+            session['usuario'] = {
+                'id': user[0],
+                'nombre': user[1]
+            }
             return redirect(url_for('home'))
         else:
             return "Inicio de sesion fallido"
@@ -63,7 +66,7 @@ def procesar_datos(): # Obtener los datos del formulario
         'host': 'localhost',
         'user': 'root',
         'password': '',
-        'database': 'Labor_Lane'
+        'database': 'db_laborlane'
     }
     cnx = mysql.connector.connect(**db_config)
     nombres = request.form['nombres']
@@ -115,21 +118,50 @@ def procesar_datos(): # Obtener los datos del formulario
 #Perfiles---------------------------------------------------------------------------
 @app.route('/perfilcliente', methods=['GET'])   
 def perfilcliente():
-    if 'nombres' in session:
-        return render_template('perfilcliente.html', nombres=session['nombres'])
+    if 'usuario' in session:
+        return render_template('perfilcliente.html', nombre=session['usuario'])
     return redirect(url_for('login'))
 
-
+@app.route('/perfilclienteimagen', methods=['GET', 'POST'])
+def perfilclienteimagen():
+    db_config = {
+        'host': 'localhost',
+        'user': 'root',
+        'password': '',
+        'database': 'db_laborlane'
+    }
+    cnx = mysql.connector.connect(**db_config)
+    cursor = cnx.cursor()
+    if 'usuario' not in session:
+        return redirect(url_for(home))
+    if request.method == 'POST':
+        file = request.files['file']
+        if file.filename != '':
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            sql = 'update usuarios set ImagenPerfil = %s where id = %s'
+            idsesion = session['usuario']['id']
+            data = (filename, idsesion)
+            cursor.execute(sql, data)
+            cnx.commit()
+            cursor().close()
+            cnx.close()
+            return redirect(url_for('perfilcliente'))
+    sql =  'select ImagenPerfil from usuario where id = %s'
+    cursor.execute(sql, (session['usuario']['id'],))
+    resultado = cursor().fetchone()
+    imagenperfil = None if resultado is None else resultado[0]
+    return render_template('perfilcliente.html', imagenperfil=imagenperfil)
 
 @app.route('/logout')
 def logout():
-    session.pop('nombres', None)
+    session.pop('nombre', None)
     return redirect(url_for('home'))
 
 #Fin perfiles---------------------------------------------------------------------------
 
 
-
+ 
 
 @app.route('/consultas')##CONSULTA GENERAL DE LOS EMPLEADOS/CLIENTES (2)------------------------------------
 def mostrar_empleados(): # Establecer la conexión a la base de datos   
@@ -137,7 +169,7 @@ def mostrar_empleados(): # Establecer la conexión a la base de datos
         'host': 'localhost',
         'user': 'root',
         'password': '',
-        'database': 'Labor_Lane'
+        'database': 'db_laborlane'
     }
     cnx = mysql.connector.connect(**db_config)
     cursor = cnx.cursor() # Consulta SQL para obtener los datos de todos los empleados   
@@ -160,7 +192,7 @@ def eliminar_empleados(id): # Establecer la conexión a la base de datos
         'host': 'localhost',
         'user': 'root',
         'password': '',
-        'database': 'Labor_Lane'
+        'database': 'db_laborlane'
     }
     cnx = mysql.connector.connect(**db_config)
     cursor = cnx.cursor() # Eliminar SQL para obtener los datos de todos los empleados         # Ejecutar la consulta SQL 
@@ -179,7 +211,7 @@ def editar(id):
         'host': 'localhost',
         'user': 'root',
         'password': '',
-        'database': 'Labor_Lane'
+        'database': 'db_laborlane'
     }
     cnx = mysql.connector.connect(**db_config)
     cursor = cnx.cursor()
@@ -206,7 +238,7 @@ def actualizar():
         'host': 'localhost',
         'user': 'root',
         'password': '',
-        'database': 'Labor_Lane'
+        'database': 'db_laborlane'
     }
     cnx = mysql.connector.connect(**db_config)
     nombres = request.form['nombres']
@@ -278,7 +310,7 @@ def habilidad():
         'host': 'localhost',
         'user': 'root',
         'password': '',
-        'database': 'Labor_Lane'
+        'database': 'db_laborlane'
     }
     cnx = mysql.connector.connect(**db_config)
     cursor = cnx.cursor()
@@ -321,7 +353,7 @@ def Educacion():
         'host': 'localhost',
         'user': 'root',
         'password': '',
-        'database': 'Labor_Lane'
+        'database': 'db_laborlane'
     }
     cnx = mysql.connector.connect(**db_config)
     cursor = cnx.cursor()
@@ -363,7 +395,7 @@ def Experiencia():
         'host': 'localhost',
         'user': 'root',
         'password': '',
-        'database': 'Labor_Lane'
+        'database': 'db_laborlane'
     }
         cnx = mysql.connector.connect(**db_config)          
         cursor.execute(sql, data)
@@ -395,7 +427,7 @@ def Referencias():
         'host': 'localhost',
         'user': 'root',
         'password': '',
-        'database': 'Labor_Lane'
+        'database': 'db_laborlane'
     }
     cnx = mysql.connector.connect(**db_config)
     cursor = cnx.cursor()
@@ -435,7 +467,7 @@ def Oferta():
         'host': 'localhost',
         'user': 'root',
         'password': '',
-        'database': 'Labor_Lane'
+        'database': 'db_laborlane'
     }
     cnx = mysql.connector.connect(**db_config)  
     cursor = cnx.cursor()

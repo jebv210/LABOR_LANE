@@ -24,9 +24,9 @@
 
     <div class="alert-acep" id="alertAcep">
         Seleccionar imagen
-        <form action="/guardar_imagen" method="post" enctype="multipart/form-data">
+        <form action="/perfilclienteimagen" method="post" enctype="multipart/form-data">
             <div class="box-file">
-                <input type="file" name="imagen" class="file">Seleccionar
+                <input type="file" name="file" class="file">Seleccionar
 
                 <input type="submit" value="guardar">
             </div>
@@ -61,7 +61,7 @@
             <div class="user-image">
                 <img src="/static/multimedia/home/undraw_pic_profile_re_7g2h.svg" alt="" class="card-user-img" id="imgUser"> 
             </div>
-            <h1>Bienvenido, {{ nombres }}!</h1>
+            <h1>Bienvenido, {{ nombre['nombre'] }}!</h1>
             <div class="box-info">
                 <p>Lorem ipsum dolor</p>
             </div>
@@ -75,8 +75,8 @@
 
                 <div class="box-coment">
                     <div class="box-backg-user">
-                        {% if imagen %}
-                        <img src="data:image/png;base64,{{ imagen }}" alt="" class="img-backg-user">
+                        {% if imagenperfil %}
+                        <img src="{{ url_for('static', filename='imagenes/' + imagenperfil) }}" alt="" class="img-backg-user">
                         {% else %}
                         <img src="/static/multimedia/home/undraw_pic_profile_re_7g2h.svg" alt="" class="img-backg-user">
                         {% endif %}

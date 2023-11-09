@@ -44,13 +44,6 @@ const boxFile = document.querySelector('.box-file').addEventListener('click', fu
     const inpAcep = document.querySelector('#inpAcep').click();
 })
 
-// document.addEventListener('click', function(event){
-//     if(event.target.id !== 'imgUser' && event.target.id !== 'alertAsk' && event.target.id !== 'btnA'){
-//         ocultar();
-//     }
-// });
-
-// Menu responsive opcciones
 window.addEventListener("scroll", function(){
     header.classList.toggle("sticky", window.scrollY > 80);
 } )
