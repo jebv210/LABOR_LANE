@@ -4,7 +4,6 @@ import mysql.connector
 import os
 
 
-
 app = Flask(__name__, template_folder='templates')
 app.secret_key = os.urandom(24)
 
