@@ -24,19 +24,21 @@
 
 <div class="wrapper">
     <div class="form-box login"> 
-        <h2>Login</h2>
-        <form action="/datos-login" method="post">
-            <div class="input-box">
+        <h2>Iniciar sesión</h2>
+        <form action="/datos-login" method="post" id="login_validacion">
+            <div class="input-box" id="grupo__usuario">
                 <span class="icon"><ion-icon
                 name="mail"></ion-icon></span>
-                <input type="Text" name="Usuario" id="Usuario"required>
-                <label>Nombre de Ususario</label>
+                <input type="Text" name="Usuario" id="Usuario" class="input_usuario" required>
+                <label>Nombre de Usuario</label>
+                <p class="formulario__input-error"></p>
             </div>
-            <div class="input-box">
+            <div class="input-box" id="grupo__contraseña">
                 <span class="icon"><ion-icon
                 name="lock-closed"></ion-icon></span>
-            <input type="password" name="Contraseña" id="Contraseña" required>
-                <label>Password</label>
+            <input type="password" name="Contraseña" id="Contraseña" class="input_constraseña" required>
+                <label>Contraseña</label>
+                <p class="formulario__input-error"></p>
             </div>
         <div class="recuperarcontra">
             <div class="slider">
@@ -47,8 +49,10 @@
                 Recordar</label>
             <a href="#">Recuperar Contraseña</a>
         </div>
-        <button type="submit" class="btn">Iniciar
-        </button>
+
+        <button type="submit" class="btn">Iniciar</button>
+        <p class="parrafo" id="parrafo"></p>
+
             <div class="login-register">
             <p>Crear un Usuario<a
                 href="#"
@@ -162,8 +166,8 @@
 </footer>
 
 
-
-<script src="/static/js/t_c.js"></script>
+<script src="../static/js/js-formularios/login_validacion.js"></script>
+<script src="../static/js/t_c.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
