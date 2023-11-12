@@ -153,7 +153,7 @@ def perfilclienteimagen():
 
 @app.route('/logout')
 def logout():
-    session.pop('nombre', None)
+    session.pop('usuario', None)
     return redirect(url_for('home'))
 
 #Fin perfiles---------------------------------------------------------------------------
