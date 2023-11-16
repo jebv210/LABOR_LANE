@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Emplllleados</title>
+</head>
+<body>
+    <a href="/formulario/empleados"><button>Formulario</button></a>
+    <h1>Empleados</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nombres</th>
+            <th>P. Apellido</th>
+            <th>S. Apellido</th>
+            <th>Genero</th>
+            <th>Tipo de documento</th>
+            <th>Número de documento</th>
+            <th>FechaNacimiento</th>
+            <th>Celular</th>
+            <th>Celular 2</th>
+            <th>Dirección</th>
+            <th>Estarto</th>
+            <th>Correo electrónico</th>
+            <th>Contraseña</th>
+            <th>Estado Civil</th>
+            <th>Personas a Cargo</th>
+            <th>Libreta</th>
+            <th>Contenido</th>
+            <th>Rol</th>
+            <th>Zona de Residencia</th>
+            <th>Acciones</th>
+        </tr>
+        {% for empleado in empleados %}
+        <tr>
+            <td>{{ empleado[0] }}</td>
+            <td>{{ empleado[1] }}</td>
+            <td>{{ empleado[2] }}</td>
+            <td>{{ empleado[3] }}</td>
+            <td>{{ empleado[4] }}</td>
+            <td>{{ empleado[5] }}</td>
+            <td>{{ empleado[6] }}</td>
+            <td>{{ empleado[7] }}</td>
+            <td>{{ empleado[8] }}</td>
+            <td>{{ empleado[9] }}</td>
+            <td>{{ empleado[10] }}</td>
+            <td>{{ empleado[11] }}</td>
+            <td>{{ empleado[12] }}</td>
+            <td>{{ empleado[13] }}</td>
+            <td>{{ empleado[14] }}</td>
+            <td>{{ empleado[15] }}</td>
+            <td>{{ empleado[16] }}</td>
+            <td>{{ empleado[17] }}</td>
+            <td>{{ empleado[18] }}</td>
+            <td>{{ empleado[19] }}</td>
+            <td>{{ empleado[20] }}</td>
+            <td><a href="/editar/{{empleado[0]}}">Modificar</a>│<a href="/eliminar/{{empleado[0]}}">Eliminar</a>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
