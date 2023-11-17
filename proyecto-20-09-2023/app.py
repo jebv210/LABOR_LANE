@@ -309,7 +309,7 @@ def habilidad():
         'user': 'root',
         'password': '',
         'database': 'db_laborlane'
-    }
+    } 
     cnx = mysql.connector.connect(**db_config)
     cursor = cnx.cursor()
     sql = "select IdUsuario from usuario where NombresUsuario=%s"# Parámetros de SQL   

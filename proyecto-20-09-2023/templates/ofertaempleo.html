@@ -2,6 +2,66 @@
 <html>
 <head>
     <title>Oferta</title>
+    <style>
+        /* Estilos para el formulario de oferta laboral */
+        body {
+            background-color: #f9f9f9;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            }
+
+            input[type="date"] {
+                width: calc(100% - 22px); /* Ajustar para compensar el relleno */
+            }
+
+            input[type="submit"] {
+                background-color: #007bff;
+                color: #fff;
+                border: none;
+                padding: 10px 15px;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 1em;
+            }
+
+            input[type="submit"]:hover {
+                background-color: #0056b3;
+            }
+
+            /* Estilos adicionales para mejorar la legibilidad del formulario */
+
+    </style>
 </head>
 <body>
     <h1>Datos de Oferta Laboral</h1>
@@ -30,6 +90,5 @@
             <input type="text" name="Nombre" id="Nombre" value="{{ men }}" readonly><br>
         <input type="submit" value="Enviar">
     </form>
-    
 </body>
 </html>
