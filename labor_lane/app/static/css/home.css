@@ -13,6 +13,7 @@
     outline: none;/* es usada para establecer el estilo del contorno de un elemento */
     scroll-behavior: smooth; /* especifica el comportamiento del desplazamiento para un elemento con desplazamiento */
     font-family: 'Work Sans', sans-serif;/* Fuente sacada de google fonts */
+    box-sizing: border-box;
 }
 
 /* Se declaran los diseños universales para el documento */
@@ -66,7 +67,7 @@ header{
 .navbar a{
     padding: 10px 30px;
     font-size: var(--p-font);
-    font-weight: 300;
+    font-weight: 700;
     color: #f2f3f4;
     transition: all .40s ease;
     border-bottom: 2px solid #f2f3f4;
@@ -84,10 +85,6 @@ header{
 
 
 
-
-
-
-
 .h-boton{
     display: flex;
     align-items: center;
@@ -101,7 +98,7 @@ header{
     border-radius: 10px;
     color: var(--text-color);
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 600;
     margin-left: 20px;
     transition: all .40s ease;
 }
@@ -146,70 +143,86 @@ header.sticky .logo img{
 
 /* home---------------------------- */
 /* primera seccion  */
-section{
-    padding: 80px 15% 70px;
+
+.home-inicio-carrusel{
+    margin-top: 10vh;
 }
 
-.home-inicio{
-    position: relative;
-    height: auto;
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    align-items: center;
-    gap: 4.5rem;
-    background: rgb(15,36,121);
-    background: linear-gradient(0deg, rgba(15,36,121,1) 0%, rgba(5,20,77,1) 100%);
+.boton-centro-slider{
+    margin: 10px 75px;
+    margin-bottom: -100px;
 }
 
-.home-text h1{
-    font-size: var(--h1-font);
-    line-height: 1;
-    margin-bottom: 20px;
+.home-text-1 {
+    overflow: hidden; /* Clear the float */
 }
-.home-text p{
-    font-size: var(--p-font);
-    color: var(--other--color);
-    line-height: 30px;
-    margin-bottom: 2rem;
+.home-text-2{
+    overflow: hidden;
 }
-.home-buscar form{
-    position: relative;
-    width: 410px;
-    max-width: 100%;
+
+.home-text-2 .carrusel-1-text{
+    margin: -30px 40px 50px 40px;
+    height: 110%;
+    width: 40%;
+    text-align: right;
+    float: right;
+    box-sizing: border-box;
 }
-.home-buscar form input:first-child{
+
+.carrusel-1-text{
+    margin: -30px 40px 50px 40px;
+    height: 110%;
+    width: 40%;
+    text-align: left;
+    float: left;
+    box-sizing: border-box;
+
+}
+
+.carrusel-1-text h1,
+.carrusel-1-text p{
+    padding: 30px;
+    font-weight: 500;
+    font-size: 25px;
+}
+.carrusel-1-text h1{
+    font-weight: 700;
+    font-size: 40px;
+}
+
+
+.home-text-1 .slider3,
+.home-text-1 .slider1 {
+    float: right;
+    width: 43%;
+    box-sizing: border-box;
+    background: url(../multimedia/home/Fondo.png);
+}
+.home-text-1 .slider3{
+    background: none;
+}
+.home-text-2 .slider2 {
+    float: left;
+    width: 53%;
+    box-sizing: border-box;
+
+}
+
+.boton-slider-2,
+.boton-slider-1{
     display: inline-block;
-    width: 100%;
-    padding: 17px 130px 16px 15px;
-    border: 2px solid var(--main-color);
-    border-radius: .70rem;
-}
-.home-buscar form input:last-child{
-    position: absolute;
-    display: inline-block;
-    padding: 12px 30px;
+    padding: 18px 28px;
     background: var(--main-color);
     color: var(--text-color);
-    font-size: 14px;
-    cursor: pointer;
     border-radius: .70rem;
-    box-shadow: 0px 0px 5px #fff, 0px 0px 15px #868686;
-    top: 6px;
-    right: 6px;
+    font-size: 17px;
+    font-weight: 500;
+    transition: all .50s ease;
 }
-.home-imagen{
-    position: relative;
-    width: 80%;
-    height: 640px;
+.boton-slider-2{
+    margin: 0px 40px 0px 0px;
 }
-.home-imagen img{
-    margin-top: 2.5rem;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    background-image: url(../multimedia/home/Fondo.png  );
-}
+
 /* segunda seccion  */
 
 .feature{
@@ -222,7 +235,7 @@ section{
 }
 .feature-contenido p{
     font-size: var(--h2-font);
-    font-weight: 450;
+    font-weight: 600;
     text-align: center;
     margin-top: 15px;
 
@@ -234,9 +247,9 @@ section{
     margin-top: 5rem;
 }
 .feature-img img{
-    width: 100%;
+    width: 75%;
     height: auto;
-    align-items: c;
+    align-items: center;
 }
 
 /* tercera seccion  */
@@ -506,7 +519,6 @@ section{
     }
     .feature{
         padding: 40px 5% 30px;
-        margin-top: 200px;
     }
 }
 

@@ -12,7 +12,6 @@
 }
 
 body{
-
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -66,37 +65,30 @@ header{
     width: 100%;
     height: 100px;
     position: fixed;
+    justify-content: space-between;
     top: 0;
-    
     z-index: 1;
     display: flex;
     align-items: center;
-    padding: 30px 15%;
+    padding: 10px 13vh;
     transition: all .80s ease;
 }
 .logo img{
-    width: 22%;
-    height: auto;
-    min-width: 100px;
-    position: relative;
-    margin: auto 0px;
+    width: 100px;
+    height: 100px;
     transition: all .80s ease;
-    left: 50px;
 }
-
-
 
 .navbar{
     display: flex;
     gap: 20px;
     margin-left: 30rem;
     transition: all .80s ease;
-    
 }
 .navbar a{
     padding: 10px 30px;
     font-size: var(--p-font);
-    font-weight: 400;
+    font-weight: 700;
     color: #f2f3f4;
     transition: all .40s ease;
     border-bottom: 2px solid #f2f3f4;
@@ -107,11 +99,9 @@ header{
 
 
 .navbar a:hover{
-    color: #abafc7;
-    font-weight: 700;
+    color: #a4a6ae;
     
 }
-
 
 .h-boton{
     display: flex;
@@ -146,8 +136,6 @@ header{
 #nextButton:hover:not([disabled]) {
     background-color: #0056b3;
 }
-
-
 
 .icono-menu{
     color: var(--text-color);
