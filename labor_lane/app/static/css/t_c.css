@@ -1,0 +1,72 @@
+/* Estilos generales para el cuerpo de la página */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+}
+
+/* Estilos para el contenedor de contenido */
+.content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Estilos para el logo */
+.logo {
+    display: block;
+    margin: 0 auto 20px;
+    max-width: 200px;
+}
+
+/* Estilos para los títulos */
+h1, h2 {
+    text-align: center;
+}
+
+/* Estilos para los párrafos */
+p, h3{
+    text-align: left;
+}
+
+/* Estilos para la casilla de aceptación */
+.accept-label {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Estilos para el botón Siguiente */
+#nextButton {
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#nextButton:disabled {
+    background-color: #d3d3d3;
+    cursor: not-allowed;
+}
+
+#nextButton:hover:not([disabled]) {
+    background-color: #0056b3;
+}
+
