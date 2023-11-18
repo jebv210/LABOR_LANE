@@ -156,6 +156,18 @@ header.sticky .logo img{
 .home-text-1 {
     overflow: hidden; /* Clear the float */
 }
+.home-text-2{
+    overflow: hidden;
+}
+
+.home-text-2 .carrusel-1-text{
+    margin: -30px 40px 50px 40px;
+    height: 110%;
+    width: 40%;
+    text-align: right;
+    float: right;
+    box-sizing: border-box;
+}
 
 .carrusel-1-text{
     margin: -30px 40px 50px 40px;
@@ -178,12 +190,37 @@ header.sticky .logo img{
     font-size: 40px;
 }
 
-.home-text-1 img {
+
+.home-text-1 .slider3,
+.home-text-1 .slider1 {
     float: right;
-    width: 45%;
+    width: 43%;
     box-sizing: border-box;
     background: url(../multimedia/home/Fondo.png);
-    
+}
+.home-text-1 .slider3{
+    background: none;
+}
+.home-text-2 .slider2 {
+    float: left;
+    width: 53%;
+    box-sizing: border-box;
+
+}
+
+.boton-slider-2,
+.boton-slider-1{
+    display: inline-block;
+    padding: 18px 28px;
+    background: var(--main-color);
+    color: var(--text-color);
+    border-radius: .70rem;
+    font-size: 17px;
+    font-weight: 500;
+    transition: all .50s ease;
+}
+.boton-slider-2{
+    margin: 0px 40px 0px 0px;
 }
 
 /* segunda seccion  */

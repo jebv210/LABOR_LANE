@@ -67,66 +67,47 @@
                         es una travesía hacia el éxito ven y descubre las diferentes labores
                         que ofrecemos para ti.
                         <div class="boton-centro-slider">
-                            <a href="{{ url_for('catalogo') }}" class="boton" > Ver Catalogo de Perfiles</a>
+                            <a href="{{ url_for('catalogo') }}" class="boton-slider-1" > Ver Catalogo de Perfiles</a>
                         </div>
                     </p>
                     
                 </div>
                 
-                    <img src="../static/multimedia/home/hombre.svg" alt="Imagen Hombre" >
+                    <img src="../static/multimedia/home/hombre.svg" alt="Imagen Hombre" class="slider1">
             </div>
+            <div class="home-text-2" >
 
+                <img src="../static/multimedia/home/slider-2.svg" alt="Imagen Hombre" class="slider2">
 
+                <div class="carrusel-1-text">
+                    
+                    <h1>Crea Y Explora creando tu perfil</h1>
+                    <p>
+                        En Labor Lane puedes crear tu perfil y poder mostrar tus cualidades a todos y ofecer tus servisios.
+                        <div class="boton-centro-slider">
+                            <a href="{{ url_for('catalogo') }}" class="boton-slider-2">Registrarse</a>
+                        </div>
+                    </p>
+                    
+                </div>
+                
+            </div>
             <div class="home-text-1" >
                 <div class="carrusel-1-text">
-                    <h1>¡Bienvenido <br> a Labor Lane!</h1>
+                    <h1>Filtra por tu nesecidad</h1>
                     <p>
-                        En Labor Lane, creemos que tu carrera es más que solo un trabajo
-                        es una travesía hacia el éxito ven y descubre las diferentes labores
-                        que ofrecemos para ti.
+                        En Labor Lane, Puedes filtrar y seleccionar dependiendo de labor que ocupes y asi optimizar tiempo para tu disposicion.
                         <div class="boton-centro-slider">
-                            <a href="{{ url_for('catalogo') }}" class="boton" > Ver Catalogo de Perfiles</a>
+                            <a href="{{ url_for('catalogo') }}" class="boton-slider-1" > Ver Catalogo de Perfiles</a>
                         </div>
                     </p>
                     
                 </div>
                 
-                    <img src="../static/multimedia/home/hombre.svg" alt="Imagen Hombre" >
+                    <img src="../static/multimedia/home/slider-3.svg" alt="Imagen Hombre" class="slider3">
             </div>
-            <div class="home-text-1" >
-                <div class="carrusel-1-text">
-                    <h1>¡Bienvenido <br> a Labor Lane!</h1>
-                    <p>
-                        En Labor Lane, creemos que tu carrera es más que solo un trabajo
-                        es una travesía hacia el éxito ven y descubre las diferentes labores
-                        que ofrecemos para ti.
-                        <div class="boton-centro-slider">
-                            <a href="{{ url_for('catalogo') }}" class="boton" > Ver Catalogo de Perfiles</a>
-                        </div>
-                    </p>
-                    
-                </div>
-                
-                    <img src="../static/multimedia/home/hombre.svg" alt="Imagen Hombre" >
-            </div>
-
-            <div class="home-text-1" >
-                <div class="carrusel-1-text">
-                    <h1>¡Bienvenido <br> a Labor Lane!</h1>
-                    <p>
-                        En Labor Lane, creemos que tu carrera es más que solo un trabajo
-                        es una travesía hacia el éxito ven y descubre las diferentes labores
-                        que ofrecemos para ti.
-                        <div class="boton-centro-slider">
-                            <a href="{{ url_for('catalogo') }}" class="boton" > Ver Catalogo de Perfiles</a>
-                        </div>
-                    </p>
-                    
-                </div>
-                
-                    <img src="../static/multimedia/home/hombre.svg" alt="Imagen Hombre" >
-            </div>
-
+        
+        </div>
 
 </section>
 
@@ -136,7 +117,7 @@
             <h2>Conoce las diferentes cualidades de Labor Lane</h2>
         </div>
 
-        <div class="feature-contenido" data-aos="zoom-in-up">
+        <div class="feature-contenido" >
             <div class="feature-img">
                 <img src="../static/multimedia/home/undraw_female_avatar_efig.svg" alt="">
                 <p>Confianza</p>
@@ -163,7 +144,7 @@
             <h2>Perfiles</h2>
         </div>
 
-        <div class="servicios-contenido" data-aos="zoom-in-up">
+        <div class="servicios-contenido" >
             <div class="servicios-vertical">
                 <img src="../static/multimedia/home/undraw_female_avatar_efig.svg">
                 <h5>Samanta Cock</h5>
@@ -232,18 +213,18 @@
             </div>
         </div>
         <div class="boton-centro">
-            <a href="{{ url_for('catalogo') }}" class="boton" data-aos="zoom-in-up"> Ver Catalogo de Perfiles</a>
+            <a href="{{ url_for('catalogo') }}" class="boton" > Ver Catalogo de Perfiles</a>
         </div>
     </section>
 
     <!-- Cuarta seccion  nosotros-->
 
     <section class="nosotros" id="nosotros" >
-        <div class="nosotros-img" data-aos="zoom-in-up">
+        <div class="nosotros-img" >
             <img src="../static/multimedia/home/undraw_push_notifications_re_t84m.svg" alt="" >
         </div>
 
-        <div class="nosotros-texto" data-aos="zoom-in-up">
+        <div class="nosotros-texto" >
             <h2>Explora en la amplia gama de  perfiles</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                 Corrupti deserunt ratione, pariatur, rerum culpa labore 
@@ -256,7 +237,7 @@
     </section>
     <!-- quinta seccion catalogo -->
     <section class="segir"  >
-        <div class="segir-contenido" data-aos="zoom-in-up" >
+        <div class="segir-contenido"  >
             <h2>La verdadera magia de labor lane </h2>
             <p>Lo mejor de todo estos servicios es que tu tambien puedes ser parte 
                 y puedes sumarte al catalogo y aportar tus servicios u oficios de una forma 
@@ -321,7 +302,7 @@
             slidesToShow: 1,
             slidesToScroll: 1,
             autoplay: true,
-            autoplaySpeed: 2000,
+            autoplaySpeed: 200,
             arrows: false,
             dots: true
         });
